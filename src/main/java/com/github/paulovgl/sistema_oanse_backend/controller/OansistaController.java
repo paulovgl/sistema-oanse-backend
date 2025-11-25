@@ -5,6 +5,7 @@ import com.github.paulovgl.sistema_oanse_backend.service.OansistaService;
 
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.DefaultValue;
@@ -54,20 +55,22 @@ public class OansistaController {
         return Response.ok(oansistaService.buscarPorNome(nome)).build();
     }
 
-    // Criar a entidade
+    // CRIAR A ENTIDADE
     @POST
-    public Response criar(OansistaRequest dto) {
+    public Response criar(@Valid OansistaRequest dto) {
         return Response.status(Response.Status.CREATED.getStatusCode(), "Oansista criado com sucesso")
                 .entity(oansistaService.criar(dto))
                 .build();
     }
 
+    // ATUALIZAR A ENTIDADE
     @PUT
     @Path("/{id}")
-    public Response atualizar(@PathParam("id") Long id, OansistaRequest dto) {
+    public Response atualizar(@PathParam("id") Long id, @Valid OansistaRequest dto) {
         return Response.ok(oansistaService.atualizar(id, dto)).build();
     }
 
+    // DELETAR A ENTIDADE
     @DELETE
     @Path("/{id}")
     public Response deletar(@PathParam("id") Long id) {
