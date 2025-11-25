@@ -29,8 +29,5 @@ public class OansistaAno extends BaseEntity {
     public Double talentos;
 
     @OneToMany(mappedBy = "oansistaAno")
-    public List<Presenca> presencas;
-
-    @OneToMany(mappedBy = "oansistaAno")
     public List<SecaoFalada> secoesFaladas;
 }

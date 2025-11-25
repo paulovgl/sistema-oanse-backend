@@ -2,20 +2,28 @@ package com.github.paulovgl.sistema_oanse_backend.entity;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.github.paulovgl.sistema_oanse_backend.type.PresencaStatusType;
+
+import jakarta.persistence.*;
 
 @Entity
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"data", "oansista_ano_id"})
+)
 public class Presenca extends BaseEntity {
 
-    public LocalDate data;
+    @ManyToOne(optional = false)
+    public Designacao designacao;
 
-    @ManyToOne
-    public Oansista oansista;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    public PresencaStatusType status;
 
-    @ManyToOne
-    public OansistaAno oansistaAno;
+    @Column(length = 255)
+    public String observacao;
 
-    @ManyToOne
-    public Usuario registradoPor;
+    @CreationTimestamp
+    public LocalDate criadaEm;
 }
