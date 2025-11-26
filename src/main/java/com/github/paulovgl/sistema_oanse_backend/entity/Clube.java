@@ -28,5 +28,6 @@ public class Clube extends BaseEntity {
     public List<Oansista> oansistas;
 
     @OneToMany(mappedBy = "clube")
-    public List<Secao> secoes;
+    public List<Manual> manuais;
+
 }

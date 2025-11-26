@@ -2,20 +2,28 @@ package com.github.paulovgl.sistema_oanse_backend.entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class SecaoFalada extends BaseEntity {
 
-    public LocalDate data;
-
-    @ManyToOne
-    public Secao secao;
-
-    @ManyToOne
+    @ManyToOne(optional = false)
     public OansistaAno oansistaAno;
 
-    @ManyToOne
-    public Usuario registradaPor;
+    @ManyToOne(optional = false)
+    public Secao secao;
+
+    @ManyToOne(optional = false)
+    public Lider lider;
+
+    @Column(nullable = false)
+    public LocalDate data;
+
+    @Column(nullable = false)
+    public Integer talentosRecebidos;
+
+    @Column(length = 255)
+    public String observacao;
 }

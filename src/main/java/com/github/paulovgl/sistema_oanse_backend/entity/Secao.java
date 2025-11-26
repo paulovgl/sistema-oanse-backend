@@ -8,10 +8,11 @@ import jakarta.persistence.ManyToOne;
 public class Secao extends BaseEntity {
 
     @Column(nullable = false)
-    public String name;
+    public String titulo;
 
-    public Double talentos;
+    @Column(nullable = false)
+    public Integer talentos;
 
-    @ManyToOne
-    public Clube clube;
+    @ManyToOne(optional = false)
+    public Manual manual;
 }

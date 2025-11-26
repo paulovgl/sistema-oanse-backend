@@ -9,9 +9,6 @@ import com.github.paulovgl.sistema_oanse_backend.type.PresencaStatusType;
 import jakarta.persistence.*;
 
 @Entity
-@Table(
-        uniqueConstraints = @UniqueConstraint(columnNames = {"data", "oansista_ano_id"})
-)
 public class Presenca extends BaseEntity {
 
     @ManyToOne(optional = false)
