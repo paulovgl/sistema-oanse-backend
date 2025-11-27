@@ -1,5 +1,6 @@
 package com.github.paulovgl.sistema_oanse_backend.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -12,12 +13,12 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"year", "oansista_id"})
+    @UniqueConstraint(columnNames = {"ano", "oansista_id"})
 })
 public class OansistaAno extends BaseEntity {
 
     @Column(nullable = false)
-    public Integer year;
+    public Integer ano;
 
     @ManyToOne
     @JoinColumn(name = "oansista_id")
@@ -29,5 +30,8 @@ public class OansistaAno extends BaseEntity {
     public Double talentos;
 
     @OneToMany(mappedBy = "oansistaAno")
-    public List<SecaoFalada> secoesFaladas;
+    public List<SecaoFalada> secoesFaladas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "oansistaAno")
+    public List<Presenca> presencas = new ArrayList<>();
 }

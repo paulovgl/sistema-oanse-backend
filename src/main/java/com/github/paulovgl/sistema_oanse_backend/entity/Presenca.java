@@ -9,10 +9,20 @@ import com.github.paulovgl.sistema_oanse_backend.type.PresencaStatusType;
 import jakarta.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"oansista_id", "data"})
+})
 public class Presenca extends BaseEntity {
 
     @ManyToOne(optional = false)
-    public Designacao designacao;
+    public OansistaAno oansistaAno;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "oansista_id")
+    public Oansista oansista;
+
+    @Column(nullable = false)
+    public LocalDate data;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
