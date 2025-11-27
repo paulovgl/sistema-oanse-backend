@@ -3,6 +3,7 @@ package com.github.paulovgl.sistema_oanse_backend.service;
 import java.util.List;
 
 import com.github.paulovgl.sistema_oanse_backend.dto.OansistaRequest;
+import com.github.paulovgl.sistema_oanse_backend.dto.OansistaResponse;
 import com.github.paulovgl.sistema_oanse_backend.entity.Clube;
 import com.github.paulovgl.sistema_oanse_backend.entity.Oansista;
 import com.github.paulovgl.sistema_oanse_backend.exception.PositiveOrZeroException;
@@ -17,7 +18,7 @@ import jakarta.ws.rs.NotFoundException;
 @ApplicationScoped
 public class OansistaService {
 
-    public List<Oansista> listar(Integer page, Integer pageSize) {
+    public List<OansistaResponse> listar(Integer page, Integer pageSize) {
 
         // Verifica se os valores são menores que zero
         if (page < 0 || pageSize < 0) {
@@ -31,10 +32,10 @@ public class OansistaService {
             throw new ListAllOansistasException();
         }
 
-        return oansistas;
+        return OansistaResponse.mapAll(oansistas);
     }
 
-    public Oansista buscarPorId(Long id) {
+    public OansistaResponse buscarPorId(Long id) {
         Oansista oansista = Oansista.findById(id);
 
         // Verifica se o objeto foi encontrado
@@ -42,27 +43,41 @@ public class OansistaService {
             throw new NotFoundException("Oansista não encontrado");
         }
 
-        return oansista;
+        return OansistaResponse.fromEntity(oansista);
     }
 
-    public List<Oansista> buscarPorClube(Long clubeId) {
+    public List<OansistaResponse> buscarPorClube(Long clubeId) {
 
-        List<Oansista> oansistasDoClube = Oansista.list("clube.id", clubeId);
+        List<Oansista> oansistas = Oansista.list("clube.id", clubeId);
 
         // Verifica se a requisição retornou um ou mais objetos
-        if (oansistasDoClube.isEmpty()) {
+        if (oansistas.isEmpty()) {
             throw new ListOansistasPerClubException();
         }
 
-        return oansistasDoClube;
+        return OansistaResponse.mapAll(oansistas);
     }
 
-    public List<Oansista> buscarPorNome(String nome) {
-        return Oansista.list("LOWER(name) LIKE ?1", "%" + nome.toLowerCase() + "%");
+    public List<OansistaResponse> buscarPorNome(String nome) {
+
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome não pode ser vazio");
+        }
+
+        List<Oansista> oansistas = Oansista.list(
+                "LOWER(name) LIKE ?1",
+                "%" + nome.toLowerCase() + "%"
+        );
+
+        if (oansistas.isEmpty()) {
+            throw new ListAllOansistasException(); // ou uma específica se quiser
+        }
+
+        return OansistaResponse.mapAll(oansistas);
     }
 
     @Transactional
-    public Oansista criar(OansistaRequest dto) {
+    public OansistaResponse criar(OansistaRequest dto) {
 
         Clube clube = Clube.findById(dto.clubeId());
 
@@ -71,23 +86,29 @@ public class OansistaService {
             throw new NotFoundException("Clube não encontrado");
         }
 
-        Oansista newOansista = new Oansista();
-        newOansista.name = dto.name();
-        newOansista.responsavel = dto.responsavel();
-        newOansista.dataNasc = dto.dataNasc();
-        newOansista.contato = dto.contato();
-        newOansista.observacao = dto.observacao();
-        newOansista.clube = clube;
+        Oansista oansista = new Oansista();
+        oansista.name = dto.name();
+        oansista.responsavel = dto.responsavel();
+        oansista.dataNasc = dto.dataNasc();
+        oansista.contato = dto.contato();
+        oansista.observacao = dto.observacao();
+        oansista.clube = clube;
 
-        newOansista.persist();
+        oansista.persist();
 
-        return newOansista;
+        return OansistaResponse.fromEntity(oansista);
     }
 
     @Transactional
-    public Oansista atualizar(Long id, OansistaRequest dto) {
+    public OansistaResponse atualizar(Long id, OansistaRequest dto) {
 
-        Oansista oansista = buscarPorId(id);
+        Oansista oansista = Oansista.findById(id);
+
+        // Verifica se o objeto foi encontrado
+        if (oansista == null) {
+            throw new NotFoundException("Oansista não encontrado");
+        }
+
         Clube clube = Clube.findById(dto.clubeId());
 
         // TODO: Modificar quando a lógica do clube for feita
@@ -102,7 +123,7 @@ public class OansistaService {
         oansista.observacao = dto.observacao();
         oansista.clube = clube;
 
-        return oansista;
+        return OansistaResponse.fromEntity(oansista);
     }
 
     @Transactional
