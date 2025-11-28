@@ -16,7 +16,7 @@ public class SecaoFalada extends BaseEntity {
     public Secao secao;
 
     @ManyToOne(optional = false)
-    public Lider lider;
+    public UsuarioAno lider;
 
     @Column(nullable = false)
     public LocalDate data;

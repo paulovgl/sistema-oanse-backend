@@ -20,7 +20,7 @@ public class Designacao extends BaseEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "lider_id")
-    public Lider lider;
+    public UsuarioAno lider;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "oansista_id")

@@ -81,9 +81,14 @@
 
 INSERT INTO oansista (name, responsavel, dataNasc, contato, observacao)
 VALUES ('Paulo Victor', 'Liduina', '2001-09-14', '85986713994', 'Nada');
-
 INSERT INTO oansista (name, responsavel, dataNasc, contato, observacao)
 VALUES ('Luis Dede', 'O pai', '2005-08-16', '85986713994', 'Nada');
+
+INSERT INTO usuario (name, email, role)
+VALUES ('PVG', 'ditoprimo@gmail.com', 'LIDER');
+INSERT INTO usuario (name, email, role)
+VALUES ('TETEUS', 'teteus@gmail.com', 'DIRETOR');
+
 -- MANUAIS
 -- INSERT INTO manual (id, nome, clube_id) VALUES (1, 'Manual Ursinhos', 1);
 -- INSERT INTO manual (id, nome, clube_id) VALUES (2, 'Manual Faísca', 2);
