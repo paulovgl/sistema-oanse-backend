@@ -6,7 +6,6 @@ import com.github.paulovgl.sistema_oanse_backend.service.PresencaService;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -32,18 +31,6 @@ public class PresencaController {
                 .status(Response.Status.CREATED)
                 .entity(presencaService.registrar(dto))
                 .build();
-    }
-
-    @GET
-    @Path("/sabado/{sabadoId}")
-    public Response listarPorSabado(@PathParam("sabadoId") Long sabadoId) {
-        return Response.ok(presencaService.listarPorSabado(sabadoId)).build();
-    }
-
-    @GET
-    @Path("/lider/{liderId}")
-    public Response listarPorLider(@PathParam("liderId") Long liderId) {
-        return Response.ok(presencaService.listarPorLider(liderId)).build();
     }
 
     @PUT

@@ -1,7 +1,6 @@
 package com.github.paulovgl.sistema_oanse_backend.service;
 
 import java.time.DayOfWeek;
-import java.util.List;
 
 import com.github.paulovgl.sistema_oanse_backend.dto.PresencaRequest;
 import com.github.paulovgl.sistema_oanse_backend.dto.PresencaResponse;
@@ -77,14 +76,6 @@ public class PresencaService {
         presenca.persist();
 
         return PresencaResponse.fromEntity(presenca);
-    }
-
-    public List<Presenca> listarPorSabado(Long sabadoId) {
-        return Presenca.list("designacao.sabado.id", sabadoId);
-    }
-
-    public List<Presenca> listarPorLider(Long liderId) {
-        return Presenca.list("designacao.lider.id", liderId);
     }
 
     @Transactional
